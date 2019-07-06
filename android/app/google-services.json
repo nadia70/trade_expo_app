@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "64312403232",
+    "firebase_url": "https://fir-demo-1b487.firebaseio.com",
+    "project_id": "fir-demo-1b487",
+    "storage_bucket": "fir-demo-1b487.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64312403232:android:f206e47b27fb0776",
+        "android_client_info": {
+          "package_name": "com.nadia.expo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64312403232-bt339gav273kod503igl85avcair0ggp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBM9O0HuqAOfWU-dG6rt404nS9tRmbZxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64312403232-bt339gav273kod503igl85avcair0ggp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
