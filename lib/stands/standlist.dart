@@ -68,7 +68,7 @@ class _ExpoStandState extends State<ExpoStand> {
 
                               new Container(
                                 height:50.0 ,
-                                color: Colors.deepPurple.withAlpha(100),
+                                color: Colors.transparent,
                                 child: new Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: new Row(
@@ -78,7 +78,12 @@ class _ExpoStandState extends State<ExpoStand> {
                                         style: new TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 24.0,
-                                            color: Colors.white),),
+                                            color: Colors.deepPurple),),
+                                      new Text("${snapshot.data[index].data["location"]}",
+                                        style: new TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 18.0,
+                                            color: Colors.deepPurple),),
                                       new Text("KSH.${snapshot.data[index].data["price"]}",
                                         style: new TextStyle(
                                             color: Colors.red[500],

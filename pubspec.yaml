@@ -39,9 +39,8 @@ dependencies:
   redux: "^3.0.0"
   timeago: "^1.2.5"
   local_notifications:
-
-
-
+  flutter_webview_plugin: ^0.2.0
+  #paystack_flutter: "^0.0.2"
 
 
 

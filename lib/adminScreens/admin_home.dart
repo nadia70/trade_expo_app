@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'add_products.dart';
 import 'package:expo_app/userScreens/messages.dart';
 
+import 'open_stands.dart';
+
 class AdminHome extends StatefulWidget {
     @override
     _AdminHomeState createState() => _AdminHomeState();
@@ -93,13 +95,40 @@ class _AdminHomeState extends State<AdminHome> {
                                                 new SizedBox(
                                                     height: 10.0,
                                                 ),
-                                                new Text("Add Products"),
+                                                new Text("Add Expo"),
                                             ],
                                         ),
                                     ),
                                 ),
                             ],
                         ),
+                      new SizedBox(
+                        height: 20.0,
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(new CupertinoPageRoute(
+                                  builder: (context) => OpenStand()));
+                            },
+                            child: new CircleAvatar(
+                              maxRadius: 70.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(Icons.table_chart),
+                                  new SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  new Text("Stands"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
 
                     ],
                 ),

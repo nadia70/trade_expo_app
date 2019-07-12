@@ -1,6 +1,9 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expo_app/models/fbconn.dart';
+
 
 
 class ItemDetail extends StatefulWidget {
@@ -29,8 +32,6 @@ class ItemDetail extends StatefulWidget {
 }
 
 class _ItemDetailState extends State<ItemDetail> {
-
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;

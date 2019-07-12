@@ -4,6 +4,8 @@ import 'stands.dart';
 import 'checkout.dart';
 
 
+
+
 class BookStand extends StatefulWidget {
   String itemName;
   String itemImage;
@@ -19,12 +21,14 @@ class BookStand extends StatefulWidget {
         this.itemPrice,
         this.itemLocation,
         this.itemStatus,});
-
   @override
   _BookStandState createState() => _BookStandState();
 }
 
 class _BookStandState extends State<BookStand> {
+
+
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;

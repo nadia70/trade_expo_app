@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:http/http.dart';
+import 'package:expo_app/stands/payment.dart';
+import 'stand_pay.dart';
 
 
 class CheckOut extends StatefulWidget {
@@ -27,6 +31,8 @@ class CheckOut extends StatefulWidget {
 }
 
 class _CheckOutState extends State<CheckOut> {
+
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -256,8 +262,10 @@ class _CheckOutState extends State<CheckOut> {
                                     const SizedBox(height: 30),
                                     RaisedButton(
                                       textColor: Colors.white,
-                                      onPressed: (){ bookStand(context);
-                                      widget.createState();
+                                      onPressed: (){
+                                        Navigator.of(context).push(new CupertinoPageRoute(
+                                            builder: (BuildContext context) => new PayStand()
+                                        ));
                                       },
                                       padding: const EdgeInsets.all(0.0),
                                       child: Container(

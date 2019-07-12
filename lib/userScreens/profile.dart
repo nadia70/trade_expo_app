@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'history.dart';
 import 'package:expo_app/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'profile_settings.dart';
+import 'about.dart';
+import 'address.dart';
 
 class ExpoProfile extends StatefulWidget {
   @override
@@ -79,21 +82,32 @@ class _ExpoProfileState extends State<ExpoProfile> {
                   decoration: new BoxDecoration(
                       borderRadius:
                       new BorderRadius.all(new Radius.circular(5.0)),
-                      color: Colors.blue),
+                      color: Colors.deepPurple),
                 ),
               ),
               new Divider(
                 height: 10.0,
               ),
-              _buildListItem("Change Name", Icons.person, () {}),
-              _buildListItem("Change Number", Icons.phone_android, () {}),
-              _buildListItem("Delivery Address", Icons.home, () {}),
-              _buildListItem("Order History", Icons.history, () {
+              _buildListItem("Settings", Icons.person, () {
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) =>
+                    new ExpoProfileSettings()));
+              }),
+              _buildListItem("Delivery Address", Icons.home, () {
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) =>
+                    new ExpoAddress()));
+              }),
+              _buildListItem("Expo History", Icons.history, () {
                 Navigator.of(context).push(new CupertinoPageRoute(
                     builder: (BuildContext context) =>
                     new ExpoHistory()));
               }),
-              _buildListItem("About Us", Icons.help, () {}),
+              _buildListItem("About Us", Icons.help, () {
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) =>
+                    new ExpoAbout()));
+              }),
               new InkWell(
                 onTap: _signOut,
                 child: new Container(
@@ -108,7 +122,7 @@ class _ExpoProfileState extends State<ExpoProfile> {
                           left: 10.0, right: 10.0, bottom: 2.0),
                       height: 60.0,
                       decoration: new BoxDecoration(
-                          color: Colors.blue,
+                          color: Colors.deepPurple,
                           borderRadius:
                           new BorderRadius.all(new Radius.circular(5.0))),
                       child: new Center(
@@ -145,7 +159,7 @@ class _ExpoProfileState extends State<ExpoProfile> {
               height: 35.0,
               margin: const EdgeInsets.only(right: 10.0),
               decoration: new BoxDecoration(
-                color: Colors.blue,
+                color: Colors.deepPurple,
                 borderRadius: new BorderRadius.circular(5.0),
               ),
               alignment: Alignment.center,

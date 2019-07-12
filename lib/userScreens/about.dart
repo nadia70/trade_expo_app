@@ -61,7 +61,7 @@ class _ExpoAboutState extends State<ExpoAbout> {
 
     final Size screenSize = MediaQuery.of(context).size;
     return new Scaffold(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.deepPurple,
         appBar: new AppBar(
           title: new GestureDetector(
             onLongPress: () {},
@@ -146,7 +146,7 @@ class _ExpoAboutState extends State<ExpoAbout> {
               height: 35.0,
               margin: const EdgeInsets.only(right: 10.0),
               decoration: new BoxDecoration(
-                color: Colors.blue,
+                color: Colors.deepPurple,
                 borderRadius: new BorderRadius.circular(5.0),
               ),
               alignment: Alignment.center,

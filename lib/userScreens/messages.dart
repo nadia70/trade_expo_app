@@ -114,7 +114,7 @@ class _ExpoMessagesState extends State<ExpoMessages> {
     this.context = context;
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Talk to us"),
+          title: new Text("Let's Talk"),
           elevation:
           Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
         ),
@@ -420,7 +420,7 @@ class ChatMessage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             margin: new EdgeInsets.only(right: 120.0),
             decoration: new BoxDecoration(
-                color: Colors.blue,
+                color: Colors.deepPurple,
                 borderRadius: new BorderRadius.only(
                   topRight: new Radius.circular(10.0),
                   topLeft: new Radius.circular(25.0),

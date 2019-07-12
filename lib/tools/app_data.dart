@@ -51,7 +51,7 @@ class AppData {
   static const int STATUS_DECLINED = 2;
   static const int STATUS_REJECTED = 3;
 
-  static final String supportUID = "08143733836Girlies";
+  static final String supportUID = "08143733836";
   static const String supportID = "supportID";
   static const String senderID = "senderID";
   static const String receiverID = "senderID";
