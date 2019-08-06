@@ -19,7 +19,9 @@ class _ExpoStandState extends State<ExpoStand> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-
+appBar: AppBar(
+  title: Text("Available stands"),
+),
       body: new Center(
         child: new Column(
           children: <Widget>[

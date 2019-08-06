@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'checkout.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/dom.dart' as dom;
 const kAndroidUserAgent =
     'Mozilla/5.0 (Linux; Android 4.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Mobile Safari/537.36';
-String selectedUrl = 'https://ravesandbox.flutterwave.com/pay/kkf2j4gybzqr';
+String selectedUrl = 'https://rave.flutterwave.com/pay/rtifegdz';
 
 class PayStand extends StatefulWidget {
   @override
@@ -30,14 +32,8 @@ class _PayStandState extends State<PayStand> {
       appBar: AppBar(
         title: const Text('Payment'),
       ),
-
       withZoom: true,
       withLocalStorage: true,
-      withJavascript: true,
-      enableAppScheme: true,
-
-
-
     );
   }
 }

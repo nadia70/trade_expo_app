@@ -40,6 +40,7 @@ dependencies:
   timeago: "^1.2.5"
   local_notifications:
   flutter_webview_plugin: ^0.2.0
+  flutter_html: ^0.8.2
   #paystack_flutter: "^0.0.2"
 
 

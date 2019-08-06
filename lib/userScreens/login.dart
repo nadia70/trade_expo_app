@@ -17,6 +17,8 @@ enum FormMode { LOGIN, SIGNUP }
 class _ExpoLoginState extends State<ExpoLogin> {
   final _formKey = new GlobalKey<FormState>();
 
+  String _fullName;
+  String _phone;
   String _email;
   String _password;
   String _errorMessage;
@@ -260,7 +262,7 @@ class _ExpoLoginState extends State<ExpoLogin> {
           child: new RaisedButton(
             elevation: 5.0,
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
+            color: Colors.deepPurple,
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
                 style: new TextStyle(fontSize: 20.0, color: Colors.white))

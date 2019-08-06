@@ -1,3 +1,5 @@
+import 'package:expo_app/userScreens/myHomePage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expo_app/tools/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -239,22 +241,24 @@ class _ExhibitorState extends State<Exhibitor> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Available Stands'),
+
           actions: <Widget>[
+        new FlatButton(
+        child: new Text('See available Stands',
+            style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+        onPressed: (){
+          Navigator.of(context).push(new CupertinoPageRoute(
+              builder: (BuildContext context) => new ExpoStand()
+          ));
+        },),
             new FlatButton(
                 child: new Text('Logout',
                     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
                 onPressed: _signOut)
           ],
         ),
-        body: new ExpoStand(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showDialog(context);
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        )
+        body: new MyHomePage(),
+
     );
   }
 }

@@ -1,5 +1,9 @@
 
+import 'dart:async';
+
+import 'package:expo_app/models/fbconn.dart';
 import 'package:expo_app/tools/app_data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +28,147 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   BuildContext context;
+
+  PageController _pageController;
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController phoneController = new TextEditingController();
+  final userRef = FirebaseDatabase.instance.reference().child(AppData.userDB);
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  StreamSubscription<Event> _msgSubscription;
+  FirebaseUser user;
+  FirebaseAuth _auth;
+  int msgCount = 0;
+
+  String fullName;
+  String email;
+  String phone;
+  String userid;
+  String profileImgUrl;
+  bool isLoggedIn;
+  String _btnText;
+  bool _isSignedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    _pageController = new PageController();
+    _getCurrentUser();
+  }
+
+  Future _getCurrentUser() async {
+    await _auth.currentUser().then((user) {
+      //_getCartCount();
+      if (user != null) {
+        setState(() {
+          _btnText = "Logout";
+          _isSignedIn = true;
+          email = user.email;
+          fullName = user.displayName;
+          profileImgUrl = user.photoUrl;
+          user = user;
+          //profileImgUrl = googleSignIn.currentUser.photoUrl;
+
+//          UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+//          userUpdateInfo.photoUrl = "";
+//          userUpdateInfo.displayName = "Esther Tony";
+//          _auth.updateProfile(userUpdateInfo);
+        });
+      }
+    });
+
+    setState(() {
+      nameController.text = fullName;
+    });
+
+    _auth.onAuthStateChanged.listen((user) {
+      if (user == null) {
+        setState(() {
+          _isSignedIn = false;
+          fullName = null;
+          profileImgUrl = null;
+          email = null;
+          nameController.text = null;
+        });
+      } else {
+        setState(() {
+          _isSignedIn = true;
+          email = user.email;
+          fullName = user.displayName;
+          profileImgUrl = user.photoUrl;
+          nameController.text = fullName;
+        });
+      }
+    });
+
+    _getUnReadMSG();
+  }
+
+  void showInSnackBar(String value) {
+    scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(value),
+    ));
+  }
+
+  Future _getUnReadMSG() async {
+    final msgRef = FirebaseDatabase.instance
+        .reference()
+        .child(AppData.messagesDB)
+        .child(AppData.currentUserID);
+
+    /*_msgSubscription = await msgRef.once().then((snapshot) {
+      if (snapshot.value == null) {
+        msgCount = 0;
+        setState(() {});
+        return;
+      }
+      setState(() {
+        msgCount = 0;
+      });
+      Map valFav = snapshot.value;
+      FbConn fbConn = new FbConn(valFav);
+      for (int s = 0; s < fbConn.getDataSize(); s++) {
+        if (fbConn.getMessageRead()[s] == false) {
+          msgCount = msgCount + 1;
+        }
+      }
+      if (msgCount > 0) {
+        setState(() {
+          createNotification();
+          print(msgCount);
+        });
+      }
+    });*/
+
+    _msgSubscription = msgRef.onValue.listen((event) {
+      if (event.snapshot.value == null) {
+        msgCount = 0;
+        setState(() {});
+        return;
+      }
+      setState(() {
+        msgCount = 0;
+      });
+      Map valFav = event.snapshot.value;
+      FbConn fbConn = new FbConn(valFav);
+      for (int s = 0; s < fbConn.getDataSize(); s++) {
+        if (fbConn.getMessageRead()[s] == false &&
+            fbConn.getMessageSenderIDasList()[s] != AppData.currentUserID) {
+          msgCount = msgCount + 1;
+        }
+      }
+
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+    _msgSubscription.cancel();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +202,9 @@ class _MyHomePageState extends State<MyHomePage> {
               drawer: new Drawer(
           child: new Column(
             children: <Widget>[
-              new UserAccountsDrawerHeader(accountName: new Text("Jane doe"),
-                  accountEmail: new Text("jane@gmail.com"),
+              new UserAccountsDrawerHeader(accountName: new Text(
+                  fullName != null ? fullName : fullName = "Your Name"),
+                  accountEmail: Text(email != null ? email : email = "you@email.com"),
               currentAccountPicture: new CircleAvatar(backgroundColor: Colors.white,
               child: new Icon(Icons.person) ,)
                 ,),
