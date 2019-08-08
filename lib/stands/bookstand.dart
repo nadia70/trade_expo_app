@@ -1,3 +1,4 @@
+import 'package:expo_app/stands/stand_pay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'stands.dart';
@@ -155,14 +156,9 @@ class _BookStandState extends State<BookStand> {
                     RaisedButton(
                       onPressed: () {
 
-                        Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => new CheckOut(
-                              itemImage: widget.itemImage,
-                              itemName: widget.itemName,
-                              itemPrice: widget.itemPrice,
-                              itemRating: widget.itemRating,
-                              itemLocation: widget.itemLocation,
-                            )));
+                        Navigator.of(context).push(new CupertinoPageRoute(
+                            builder: (BuildContext context) => new PayStand()
+                        ));
                       },
                       textColor: Colors.white,
                       padding: const EdgeInsets.all(0.0),
@@ -178,7 +174,7 @@ class _BookStandState extends State<BookStand> {
                         ),
                         padding: const EdgeInsets.all(10.0),
                         child:
-                        const Text('Book now', style: TextStyle(fontSize: 20)),
+                        const Text('Book and pay now', style: TextStyle(fontSize: 20)),
                       ),
                     ),
                       ],

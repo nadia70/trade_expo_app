@@ -82,6 +82,7 @@ class ChatMessageListItem extends StatelessWidget {
           children: <Widget>[
             new Text(messageSnapshot.value['senderName'],
                 style: new TextStyle(
+
                     fontSize: 14.0,
                     color: Colors.black,
                     fontWeight: FontWeight.bold)),

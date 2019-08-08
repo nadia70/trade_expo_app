@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'profile_settings.dart';
 import 'about.dart';
 import 'address.dart';
+import 'package:expo_app/tools/app_data.dart';
+import 'package:expo_app/login/auth.dart';
+import 'package:expo_app/login/user.dart';
 
 class ExpoProfile extends StatefulWidget {
   @override
@@ -27,6 +31,7 @@ class _ExpoProfileState extends State<ExpoProfile> {
   FirebaseUser user;
   FirebaseAuth _auth;
   bool _isSignedIn;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -51,6 +56,7 @@ class _ExpoProfileState extends State<ExpoProfile> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -218,12 +224,10 @@ class _ExpoProfileState extends State<ExpoProfile> {
           new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Text(fullName != null ? fullName : fullName = "Your Name",
-                  style: mainTextStyle),
               new Text(email != null ? email : email = "Your Email",
                   style: subTextStyle),
-              new Text(phone != null ? phone : phone = "Your Number",
-                  style: subTextStyle),
+
+
             ],
           ),
         ],

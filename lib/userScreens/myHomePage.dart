@@ -202,8 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
               drawer: new Drawer(
           child: new Column(
             children: <Widget>[
-              new UserAccountsDrawerHeader(accountName: new Text(
-                  fullName != null ? fullName : fullName = "Your Name"),
+              new UserAccountsDrawerHeader(
                   accountEmail: Text(email != null ? email : email = "you@email.com"),
               currentAccountPicture: new CircleAvatar(backgroundColor: Colors.white,
               child: new Icon(Icons.person) ,)

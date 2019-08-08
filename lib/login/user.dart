@@ -21,7 +21,7 @@ class User {
       'firstName': firstName,
       'email': email == null ? '' : email,
       'profilePictureURL': profilePictureURL,
-      'appIdentifier': 'flutter-onboarding'
+      'appIdentifier': 'TradeExpo'
     };
   }
 
