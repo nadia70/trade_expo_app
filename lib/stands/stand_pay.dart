@@ -45,7 +45,7 @@ class _PayStandState extends State<PayStand> {
     return WebviewScaffold(
       url: selectedUrl,
       appBar: AppBar(
-        title:  Text('Payment for stand number:  ${widget.itemName}'),
+        title:  Text('Payment for stand number: ${widget.itemName}'),
       ),
       withZoom: true,
       withLocalStorage: true,
