@@ -1,5 +1,6 @@
 
 import 'package:expo_app/models/progress.dart';
+import 'package:expo_app/userScreens/exhibitor.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import "custom_text_field.dart";
@@ -169,7 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
         Navigator.of(context).push(new CupertinoPageRoute(
-            builder: (BuildContext context) => new MyHomePage()
+            builder: (BuildContext context) => new  Exhibitor()
         ));
 
       } catch (e) {

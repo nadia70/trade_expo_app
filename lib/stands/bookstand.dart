@@ -157,7 +157,11 @@ class _BookStandState extends State<BookStand> {
                       onPressed: () {
 
                         Navigator.of(context).push(new CupertinoPageRoute(
-                            builder: (BuildContext context) => new PayStand()
+                            builder: (BuildContext context) => new PayStand(
+                              itemImage: widget.itemImage,
+                              itemName: widget.itemName,
+                              itemLocation: widget.itemLocation,
+                            )
                         ));
                       },
                       textColor: Colors.white,

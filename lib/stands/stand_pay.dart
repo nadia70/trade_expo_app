@@ -9,6 +9,21 @@ const kAndroidUserAgent =
 String selectedUrl = 'https://rave.flutterwave.com/pay/rtifegdz';
 
 class PayStand extends StatefulWidget {
+  String itemName;
+  String itemImage;
+  String itemSubName;
+  String itemLocation;
+  double itemPrice;
+  double itemRating;
+
+  PayStand(
+      {this.itemName,
+        this.itemImage,
+        this.itemRating,
+        this.itemPrice,
+        this.itemLocation,
+        this.itemSubName});
+
   @override
   _PayStandState createState() => _PayStandState();
 }
@@ -30,7 +45,7 @@ class _PayStandState extends State<PayStand> {
     return WebviewScaffold(
       url: selectedUrl,
       appBar: AppBar(
-        title: const Text('Payment'),
+        title:  Text('Payment for stand number:  ${widget.itemName}'),
       ),
       withZoom: true,
       withLocalStorage: true,

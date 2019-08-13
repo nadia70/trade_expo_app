@@ -239,20 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ));
                 },
               ),
-              new ListTile(
-                trailing: new CircleAvatar(
-                  child: new Icon(Icons.exit_to_app,
-                    color: Colors.white,
-                    size: 20.0,
-                  ),
-                ),
-                title: new Text("Exhibitor"),
-                onTap: (){
-                  Navigator.of(context).push(new CupertinoPageRoute(
-                      builder: (BuildContext context) => new RootPage(auth: new Auth())
-                  ));
-                },
-              ),
+
               new ListTile(
                 trailing: new CircleAvatar(
                   child: new Icon(Icons.supervisor_account,
