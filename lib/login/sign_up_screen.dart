@@ -227,6 +227,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
 
     try {
+      SystemChannels.textInput.invokeMethod('TextInput.hide');
       await _auth
           .createUserWithEmailAndPassword(
           email: _email.text, password: _password.text)
@@ -253,7 +254,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       String exception = Auth.getExceptionText(e);
       _showErrorAlert(
         title: "Login failed",
-        content: exception,
+        content: "correct fields highlighted in red and try again",
 
       );
     }
