@@ -8,6 +8,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'favorites.dart';
+import 'help.dart';
 import 'messages.dart';
 import 'profile.dart';
 import 'about.dart';
@@ -227,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Divider(),
               new ListTile(
                 trailing: new CircleAvatar(
-                  child: new Icon(Icons.help,
+                  child: new Icon(Icons.border_color,
                     color: Colors.white,
                     size: 20.0,
                   ),
@@ -239,6 +240,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   ));
                 },
               ),
+
+              new Divider(),
+              new ListTile(
+                trailing: new CircleAvatar(
+                  child: new Icon(Icons.help,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                ),
+                title: new Text("Help"),
+                onTap: (){
+                  Navigator.of(context).push(new CupertinoPageRoute(
+                      builder: (BuildContext context) => new HelpPage()
+                  ));
+                },
+              ),
+
 
               new ListTile(
                 trailing: new CircleAvatar(

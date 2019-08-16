@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'user.dart';
 import 'package:flutter/services.dart';
 import 'package:expo_app/tools/app_methods.dart';
@@ -70,14 +71,10 @@ class Auth {
 
 
   static Stream<User> getUser(String userID) {
-    return Firestore.instance
-        .collection("users")
-        .where("userID", isEqualTo: userID)
-        .snapshots()
-        .map((QuerySnapshot snapshot) {
-      return snapshot.documents.map((doc) {
-        return User.fromDocument(doc);
-      }).first;
+    var db = FirebaseDatabase.instance.reference().child("userDB").child(userID);
+    db.once().then((DataSnapshot snapshot){
+      Map<dynamic, dynamic> values = snapshot.value;
+      print(values["fullName"]);
     });
   }
 

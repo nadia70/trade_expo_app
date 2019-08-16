@@ -24,6 +24,7 @@ class _SignInScreenState extends State<SignInScreen> {
   CustomTextField _passwordField;
   bool _blackVisible = false;
   VoidCallback onBackPress;
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -58,6 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return WillPopScope(
       onWillPop: onBackPress,
       child: Scaffold(
+        key: scaffoldKey,
         body: Stack(
           children: <Widget>[
             Stack(
@@ -149,6 +151,12 @@ class _SignInScreenState extends State<SignInScreen> {
       _blackVisible = !_blackVisible;
     });
   }
+
+  void showInSnackBar(String value) {
+    scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(value),
+    ));
+  }
   var progress = new ProgressBar(
     backgroundColor: Colors.black12,
     color: Colors.white,
@@ -158,14 +166,24 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _emailLogin(
       {String email, String password, BuildContext context}) async {
-    if (Validator.validateEmail(email) &&
-        Validator.validatePassword(password)) {
+    if (_email.text == "") {
+      showInSnackBar("Email cannot be empty");
+      return;
+    }
+
+    if (_password.text == "") {
+      showInSnackBar("Password cannot be empty");
+      return;
+    }
+
+    showDialog(
+      context: context,
+      child: progress,
+    );
       try {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
-        showDialog(
-          context: context,
-          child: progress,
-        );
+
+
         await Auth.signIn(email, password);
 
 
@@ -182,7 +200,7 @@ class _SignInScreenState extends State<SignInScreen> {
           onPressed: _changeBlackVisible,
         );
       }
-    }
+
   }
 
 
@@ -201,3 +219,4 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
+

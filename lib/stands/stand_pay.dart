@@ -45,7 +45,11 @@ class _PayStandState extends State<PayStand> {
     return WebviewScaffold(
       url: selectedUrl,
       appBar: AppBar(
-        title:  Text('Payment for stand number: ${widget.itemName}'),
+        title:  Text('Pay KSH.${widget.itemPrice} for stand number: ${widget.itemName}',
+            style: new TextStyle(
+
+            color: Colors.indigo,
+            fontWeight: FontWeight.w700),),
       ),
       withZoom: true,
       withLocalStorage: true,
