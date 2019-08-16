@@ -192,10 +192,10 @@ class _SignInScreenState extends State<SignInScreen> {
         ));
 
       } catch (e) {
-        print("Error in email sign in: $e");
+        print("Error in sign up. Correct text fields higglighted in red: $e");
         String exception = Auth.getExceptionText(e);
         _showErrorAlert(
-          title: "Login failed",
+          title: "signup failed",
           content: exception,
           onPressed: _changeBlackVisible,
         );

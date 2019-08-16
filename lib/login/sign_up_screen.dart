@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+import 'auth.dart';
+import 'custom_alert_dialog.dart';
 import "custom_text_field.dart";
 import 'validator.dart';
 import 'package:flutter/services.dart';
@@ -246,20 +248,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
             builder: (BuildContext context) => new WelcomeScreen()
         ));
       });
-    } on PlatformException catch (e) {
-      Navigator.of(context).pop();
-      showInSnackBar(e.message);
+    }  catch (e) {
+      print("Error in email sign in: $e");
+      String exception = Auth.getExceptionText(e);
+      _showErrorAlert(
+        title: "Login failed",
+        content: exception,
+
+      );
     }
 
-//    setState(() {});
-//
-//    if (user != null) {
-//      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
-//      userUpdateInfo.photoUrl = "";
-//      userUpdateInfo.displayName = _nameController.text;
-//      _auth.updateProfile(userUpdateInfo);
-//    }
+  }
+
+
+
+  void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          content: content,
+          title: title,
+          onPressed: onPressed,
+        );
+      },
+    );
   }
 }
-
 
