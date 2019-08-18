@@ -24,6 +24,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _password = new TextEditingController();
   final userRef = FirebaseDatabase.instance.reference().child(AppData.userDB);
   final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  bool _autoValidate = false;
 
   CustomTextField _nameField;
   CustomTextField _phoneField;
@@ -49,6 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       controller: _fullname,
       hint: "Full Name",
       validator: Validator.validateName,
+
     );
     _phoneField = new CustomTextField(
       baseColor: Colors.grey,
@@ -82,102 +85,188 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: onBackPress,
       child: Scaffold(
+        appBar: AppBar(
+          title: Text("Create account"),
+        ),
         body: Stack(
-          children: <Widget>[
-            Stack(
-              alignment: Alignment.topLeft,
+          children: [
+            ListView(
               children: <Widget>[
-                ListView(
+                Stack(
+                  alignment: Alignment.topLeft,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 70.0, bottom: 10.0, left: 10.0, right: 10.0),
-                      child: Text(
-                        "Create new account",
-                        softWrap: true,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.indigo,
-                          decoration: TextDecoration.none,
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: "OpenSans",
+                    new SizedBox(
+                      height: 30.0,
+                    ),
+                     Padding(
+                       padding: const EdgeInsets.all(20.0),
+                       child: Form(
+
+                    key: _formKey,
+                         autovalidate: _autoValidate,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+
+                            new TextFormField(
+                                controller: _fullname,
+                                decoration: InputDecoration(
+                                  border: UnderlineInputBorder(
+                                      borderRadius:BorderRadius.circular(20.0)),
+                                  hintText: 'Full Name',
+                                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  String p = r"^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
+                                  RegExp regExp = new RegExp(p);
+
+                                  if (regExp.hasMatch(value)) {
+                                    // So, the email is valid
+                                    return null;
+                                  }
+
+                                  // The pattern of the email didn't match the regex above.
+                                  return 'Name is not valid';
+                                }
+                            ),
+
+                            new SizedBox(
+                              height: 20.0,
+                            ),
+
+                            new TextFormField(
+                                controller: _number,
+                                decoration: InputDecoration(
+                                  hintText: 'Phone Number',
+                                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                  border: UnderlineInputBorder(
+                                      borderRadius:BorderRadius.circular(20.0)),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  String p = r'^\D?(\d{3})\D?\D?(\d{3})\D?(\d{4})$';
+                                  RegExp regExp = new RegExp(p);
+
+                                  if (regExp.hasMatch(value)) {
+                                    // So, the email is valid
+                                    return null;
+                                  }
+                                  // The pattern of the email didn't match the regex above.
+                                  return 'number, should contain 10 digits ';
+                                }
+                            ),
+
+                            new SizedBox(
+                              height: 20.0,
+                            ),
+
+                            new TextFormField(
+                                controller: _email,
+                                decoration: InputDecoration(
+                                  hintText: 'Email',
+                                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                  border: UnderlineInputBorder(
+                                      borderRadius:BorderRadius.circular(20.0)),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+                                      "\\@" +
+                                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                                      "(" +
+                                      "\\." +
+                                      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                                      ")+";
+                                  RegExp regExp = new RegExp(p);
+
+                                  if (regExp.hasMatch(value)) {
+                                    // So, the email is valid
+                                    return null;
+                                  }
+                                  // The pattern of the email didn't match the regex above.
+                                  return 'Email is not valid';
+                                }
+                            ),
+
+                            new SizedBox(
+                              height: 20.0,
+                            ),
+
+                            new TextFormField(
+                                controller: _password,
+                                decoration: InputDecoration(
+                                  hintText: 'Password',
+                                  contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                  border: UnderlineInputBorder(
+                                      borderRadius:BorderRadius.circular(20.0)),
+                                ),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  if (value.length < 6) {
+                                    return 'Must be atleast 6 charaters';
+                                  }
+                                  String p = r'^(?=.*?[A-Z])(?=.*?[a-z])';
+                                  RegExp regExp = new RegExp(p);
+
+                                  if (regExp.hasMatch(value)) {
+                                    // So, the email is valid
+                                    return null;
+                                  }
+                                  // The pattern of the email didn't match the regex above.
+                                  return 'Password should contain atleast one capital letter';
+                                }
+                            ),
+
+                            new SizedBox(
+                              height: 20.0,
+                            ),
+
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              child: RaisedButton(
+                                onPressed: () { createUserAccount(); },
+                                child: Text('Create account'),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
                     ),
-                    Padding(
-                      padding:
-                      EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
-                      child: _nameField,
-                    ),
-                    Padding(
-                      padding:
-                      EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                      child: _phoneField,
-                    ),
-                    Padding(
-                      padding:
-                      EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                      child: _emailField,
-                    ),
-                    Padding(
-                      padding:
-                      EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
-                      child: _passwordField,
-                    ),
-                    new InkWell(
-                      onTap: () {
-                        createUserAccount();
-                      },
-                      child: new Container(
-                        height: 60.0,
-                        margin: new EdgeInsets.only(top: 5.0),
-                        child: new Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: new Container(
-                            margin: new EdgeInsets.only(
-                                left: 10.0, right: 10.0, bottom: 2.0),
-                            height: 60.0,
-                            decoration: new BoxDecoration(
-                                color: Colors.deepPurple,
-                                borderRadius: new BorderRadius.all(
-                                    new Radius.circular(20.0))),
-                            child: new Center(
-                                child: new Text(
-                                  "Create Account",
-                                  style: new TextStyle(
-                                      color: Colors.white, fontSize: 20.0),
-                                )),
-                          ),
-                        ),
+                     ),
+                    SafeArea(
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: onBackPress,
                       ),
                     ),
                   ],
                 ),
-                SafeArea(
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: onBackPress,
+                Offstage(
+                  offstage: !_blackVisible,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: AnimatedOpacity(
+                      opacity: _blackVisible ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.ease,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height,
+                        color: Colors.black54,
+                      ),
+                    ),
                   ),
                 ),
               ],
-            ),
-            Offstage(
-              offstage: !_blackVisible,
-              child: GestureDetector(
-                onTap: () {},
-                child: AnimatedOpacity(
-                  opacity: _blackVisible ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.ease,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height,
-                    color: Colors.black54,
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -201,24 +290,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 
   Future createUserAccount() async {
-    if (_fullname.text == "") {
-      showInSnackBar("Name cannot be empty");
-      return;
-    }
-
-    if (_number.text == "") {
-      showInSnackBar("Mobile cannot be empty");
-      return;
-    }
-
-    if (_email.text == "") {
-      showInSnackBar("Email cannot be empty");
-      return;
-    }
-
-    if (_password.text == "") {
-      showInSnackBar("Password cannot be empty");
-      return;
+    if (_formKey.currentState.validate()) {
+      // If the form is valid, display a Snackbar.
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text('Processing Data')));
     }
 
     showDialog(
@@ -254,7 +329,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       String exception = Auth.getExceptionText(e);
       _showErrorAlert(
         title: "Login failed",
-        content: "correct fields highlighted in red and try again",
+        content: exception,
 
       );
     }
@@ -271,7 +346,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         return CustomAlertDialog(
           content: content,
           title: title,
-          onPressed: onPressed,
+          onPressed: () {
+          Navigator.of(context).pop();
+        },
         );
       },
     );

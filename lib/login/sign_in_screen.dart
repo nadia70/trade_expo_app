@@ -13,6 +13,7 @@ import 'auth.dart';
 import 'package:expo_app/userScreens/myHomePage.dart';
 
 
+
 class SignInScreen extends StatefulWidget {
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -192,12 +193,14 @@ class _SignInScreenState extends State<SignInScreen> {
         ));
 
       } catch (e) {
-        print("Error in sign up. Correct text fields higglighted in red: $e");
+        print("Error in sign up: $e");
         String exception = Auth.getExceptionText(e);
         _showErrorAlert(
           title: "signup failed",
           content: exception,
-          onPressed: _changeBlackVisible,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         );
       }
 

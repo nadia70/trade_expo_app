@@ -54,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             setState(() {
               if (!widget.validator(text) || text.length == 0) {
                 currentColor = widget.errorColor;
+
               } else {
                 currentColor = widget.baseColor;
               }
