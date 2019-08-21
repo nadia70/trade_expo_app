@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:expo_app/login/welcome_screen.dart';
 import 'package:expo_app/models/fbconn.dart';
 import 'package:expo_app/tools/app_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -255,6 +256,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   ));
                 },
               ),
+              new Divider(),
+              new ListTile(
+                trailing: new CircleAvatar(
+                  child: new Icon(Icons.lock,
+                    color: Colors.white,
+                    size: 20.0,
+                  ),
+                ),
+                title: new Text("logout"),
+                onTap: (){
+                  Navigator.of(context).push(new CupertinoPageRoute(
+                      builder: (BuildContext context) => new WelcomeScreen()
+                  ));
+                },
+              ),
+
 
 
 

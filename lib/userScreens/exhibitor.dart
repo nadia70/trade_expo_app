@@ -260,7 +260,11 @@ class _ExhibitorState extends State<Exhibitor> {
             new FlatButton(
                 child: new Text('Logout',
                     style: new TextStyle(fontSize: 17.0, color: Colors.white)),
-                onPressed: _signOut)
+                onPressed: (){
+                  Navigator.of(context).push(new CupertinoPageRoute(
+                      builder: (BuildContext context) => new WelcomeScreen()
+                  ));
+                },)
           ],
         ),
         body: new MyHomePage(),

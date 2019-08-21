@@ -1,3 +1,4 @@
+import 'package:expo_app/login/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'add_products.dart';
@@ -131,8 +132,38 @@ class _AdminHomeState extends State<AdminHome> {
                         ],
                       ),
 
+                      new SizedBox(
+                        height: 20.0,
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).push(new CupertinoPageRoute(
+                                  builder: (BuildContext context) => new WelcomeScreen()
+                              ));
+                            },
+                            child: new CircleAvatar(
+                              maxRadius: 20.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  new Icon(Icons.lock),
+                                  new SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  new Text("LOGOUT"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
                     ],
                 ),
+
             ),
         );
     }
