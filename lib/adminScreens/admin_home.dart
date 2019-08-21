@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'add_products.dart';
 import 'package:expo_app/userScreens/messages.dart';
 
+import 'app_users.dart';
 import 'open_stands.dart';
 
 class AdminHome extends StatefulWidget {
@@ -37,7 +38,7 @@ class _AdminHomeState extends State<AdminHome> {
                                 new GestureDetector(
                                     onTap: () {
                                         Navigator.of(context).push(new CupertinoPageRoute(
-                                            builder: (context) => ExpoMessages()));
+                                            builder: (context) => AppUsers()));
                                     },
                                     child: new CircleAvatar(
                                         maxRadius: 70.0,

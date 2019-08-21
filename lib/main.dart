@@ -2,6 +2,7 @@ import 'package:expo_app/tools/authentication.dart';
 import 'package:expo_app/userScreens/exhibitor.dart';
 import 'package:expo_app/userScreens/root_page.dart';
 import 'package:flutter/material.dart';
+import 'exhibitor/ex_reg.dart';
 import 'models/applogin.dart';
 import 'userScreens/myHomePage.dart';
 import 'package:firebase_database/firebase_database.dart';

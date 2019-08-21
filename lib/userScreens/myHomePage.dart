@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'chat.dart';
 import 'favorites.dart';
 import 'help.dart';
 import 'messages.dart';
@@ -286,78 +287,78 @@ class _ItemsState extends State<Items> {
       child: FutureBuilder(
           future: getData(),
           builder: (context, snapshot){
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: Text("Loading... Please wait"),
-          );
-        }else{
-          return GridView.builder(gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2),
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return new GestureDetector(
-                onTap: (){
-                  Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new ItemDetail(
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: Text("Loading... Please wait"),
+              );
+            }else{
+              return GridView.builder(gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return new GestureDetector(
+                    onTap: (){
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new ItemDetail(
 
-                    itemImage: snapshot.data[index].data["appProducts"][0],
-                    itemName: snapshot.data[index].data["productTitle"],
-                    itemPrice: snapshot.data[index].data["productPrice"],
-                    itemRating: snapshot.data[index].data["productRating"],
-                    itemDescription: snapshot.data[index].data["productDesc"],
+                        itemImage: snapshot.data[index].data["appProducts"][0],
+                        itemName: snapshot.data[index].data["productTitle"],
+                        itemPrice: snapshot.data[index].data["productPrice"],
+                        itemRating: snapshot.data[index].data["productRating"],
+                        itemDescription: snapshot.data[index].data["productDesc"],
 
 
-                  )));
-                },
-                child: new Card(
-                  child: Stack(
-                    alignment: FractionalOffset.topLeft,
-                    children: <Widget>[
-                      new Stack(
-                        alignment: FractionalOffset.bottomCenter,
+                      )));
+                    },
+                    child: new Card(
+                      child: Stack(
+                        alignment: FractionalOffset.topLeft,
                         children: <Widget>[
-                          new Container(
-                            decoration: new BoxDecoration(
-                                image: new DecorationImage(
-                                    fit: BoxFit.fitWidth ,
-                                    image: new NetworkImage(snapshot.data[index].data["appProducts"][0]))
-                            ),
+                          new Stack(
+                            alignment: FractionalOffset.bottomCenter,
+                            children: <Widget>[
+                              new Container(
+                                decoration: new BoxDecoration(
+                                    image: new DecorationImage(
+                                        fit: BoxFit.fitWidth ,
+                                        image: new NetworkImage(snapshot.data[index].data["appProducts"][0]))
+                                ),
 
-                          ),
-                          new Container(
-                            height:35.0 ,
-                            color: Colors.black.withAlpha(100),
-                            child: new Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  new Text("${snapshot.data[index].data["productTitle"]
-                                      .substring(0,10)}...",
-                                    style: new TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 12.0,
-                                        color: Colors.white),),
-                                  new Text("KSH.${snapshot.data[index].data["productPrice"]}",
-                                    style: new TextStyle(
-                                        color: Colors.red[500],
-                                        fontWeight: FontWeight.w400),),
-                                ],
                               ),
-                            ),
-                          )
+                              new Container(
+                                height:35.0 ,
+                                color: Colors.black.withAlpha(100),
+                                child: new Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      new Text("${snapshot.data[index].data["productTitle"]
+                                          .substring(0,10)}...",
+                                        style: new TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12.0,
+                                            color: Colors.white),),
+                                      new Text("KSH.${snapshot.data[index].data["productPrice"]}",
+                                        style: new TextStyle(
+                                            color: Colors.red[500],
+                                            fontWeight: FontWeight.w400),),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+
                         ],
                       ),
+                    ),
+                  );
 
-                    ],
-                  ),
-                ),
+                },
               );
 
-            },
-          );
-
-        }
-      }),
+            }
+          }),
 
     );
 

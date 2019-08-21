@@ -47,6 +47,8 @@ class _ExpoMessagesState extends State<ExpoMessages> {
   bool _isSignedIn = false;
   var _scaffoldContext;
   Timer timer;
+  String admin;
+  String adminText;
 
   @override
   void initState() {
@@ -79,6 +81,8 @@ class _ExpoMessagesState extends State<ExpoMessages> {
           profileImgUrl = user.photoUrl;
           userid = user.uid;
           user = user;
+          admin = "neemanalani@gmail.com";
+          adminText = "Admin";
         });
       }
     });
@@ -187,32 +191,7 @@ class _ExpoMessagesState extends State<ExpoMessages> {
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
           child: new Row(
             children: <Widget>[
-              new Container(
-                margin: new EdgeInsets.symmetric(horizontal: 4.0),
-                child: new IconButton(
-                    icon: new Icon(
-                      Icons.photo_camera,
-                      color: Theme.of(context).accentColor,
-                    ),
-                    onPressed: () async {
-                      //await _ensureLoggedIn();
-                      File imageFile = await ImagePicker.pickImage(
-                          source: ImageSource.gallery);
-                      print(imageFile.path);
-                      int timestamp = new DateTime.now().millisecondsSinceEpoch;
-                      StorageReference storageReference = FirebaseStorage
-                          .instance
-                          .ref()
-                          .child("img_" + timestamp.toString() + ".jpg");
 
-
-                      StorageUploadTask uploadTask = storageReference.putFile(imageFile);
-
-                      StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-
-                      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-                    }),
-              ),
               new Flexible(
                 child: new TextField(
                   controller: _textEditingController,
@@ -316,13 +295,15 @@ class ChatMessage extends StatelessWidget {
   final DataSnapshot messageSnapshot;
   final Animation animation;
   final String userid;
+  final String admin;
+  final String adminText;
   TimeAgo timeAgoo = new TimeAgo();
   BuildContext context;
   Size screenSize;
 
   //DateTime time = new DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch).;
 
-  ChatMessage({this.messageSnapshot, this.animation, this.userid});
+  ChatMessage({this.messageSnapshot, this.animation, this.userid, this.admin, this.adminText});
 
   @override
   Widget build(BuildContext context) {
@@ -362,21 +343,24 @@ class ChatMessage extends StatelessWidget {
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      new Text(messageSnapshot.value[AppData.messageSenderName],
-                          style: new TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold)),
+
                       new Container(
                         margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        child: messageSnapshot.value[AppData.messageImageUrl] !=
-                            null
-                            ? new Image.network(
-                          messageSnapshot.value[AppData.messageImageUrl],
-                          width: 200.0,
-                        )
-                            : new Text(messageSnapshot.value[AppData.messageText]),
+                        child:  new Text(messageSnapshot.value[AppData.messageText]),
                       ),
+
+                      messageSnapshot.value[AppData.messageSenderEmail] == "neemanalani@gmail.com"
+                          ? new Text("Admin",
+                          style: new TextStyle(
+                              fontSize: 11.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold))
+                          : new Text(messageSnapshot.value[AppData.messageSenderEmail],
+                          style: new TextStyle(
+                              fontSize: 11.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
+
                       new Text(
                           timeAgoo.timeUpdater(
                               new DateTime.fromMillisecondsSinceEpoch(
@@ -420,7 +404,7 @@ class ChatMessage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             margin: new EdgeInsets.only(right: 120.0),
             decoration: new BoxDecoration(
-                color: Colors.deepPurple,
+                color: Colors.deepPurpleAccent,
                 borderRadius: new BorderRadius.only(
                   topRight: new Radius.circular(10.0),
                   topLeft: new Radius.circular(25.0),
@@ -429,47 +413,45 @@ class ChatMessage extends StatelessWidget {
                 )),
             child: new Row(
               children: <Widget>[
-                new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Container(
-                      margin: const EdgeInsets.only(right: 8.0),
-                      child: messageSnapshot.value[AppData.messageSenderImage] == ""
-                          ? new CircleAvatar(
-                        backgroundColor: Colors.white,
-                        backgroundImage:
-                        new NetworkImage("https://www.poweron-it.com/images/easyblog_shared/July_2018/7-4-18/totw_network_profile_400.jpg"),
-                      )
-                          : new CircleAvatar(
-                        backgroundColor: Colors.pink[900],
-                        backgroundImage: new NetworkImage(messageSnapshot
-                            .value[AppData.messageSenderImage]),
-                      ),
-                    ),
-                  ],
+            new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Container(
+                  margin: const EdgeInsets.only(left: 8.0, right:8.0),
+                  child: messageSnapshot.value[AppData.messageSenderImage] == ""
+                      ? new CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage:
+                    new NetworkImage("https://www.poweron-it.com/images/easyblog_shared/July_2018/7-4-18/totw_network_profile_400.jpg"),
+                  )
+                      : new CircleAvatar(
+                    backgroundColor: Colors.black,
+                    backgroundImage: new NetworkImage(messageSnapshot
+                        .value[AppData.messageSenderImage]),
+                  ),
                 ),
+              ],
+            ),
                 new Expanded(
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text(messageSnapshot.value[AppData.messageSenderName],
-                          style: new TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
                       new Container(
                         margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        child:
-                        messageSnapshot.value[AppData.messageImageUrl] != null
-                            ? new Image.network(
-                          messageSnapshot.value[AppData.messageImageUrl],
-                          width: 200.0,
-                        )
-                            : new Text(
-                          messageSnapshot.value[AppData.messageText],
-                          style: new TextStyle(color: Colors.white),
-                        ),
+                        child:  new Text(messageSnapshot.value[AppData.messageText]),
                       ),
+                      messageSnapshot.value[AppData.messageSenderEmail] == "neemanalani@gmail.com"
+                          ? new Text("Admin",
+                          style: new TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold))
+                          : new Text(messageSnapshot.value[AppData.messageSenderEmail],
+                          style: new TextStyle(
+                              fontSize: 11.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+
                       new Text(
                           timeAgoo.timeUpdater(
                               new DateTime.fromMillisecondsSinceEpoch(
@@ -481,6 +463,7 @@ class ChatMessage extends StatelessWidget {
                     ],
                   ),
                 ),
+
               ],
             ),
           ))
