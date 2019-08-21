@@ -1,3 +1,4 @@
+import 'package:expo_app/login/welcome_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -238,6 +239,7 @@ class _ExpoProfileState extends State<ExpoProfile> {
   Future _signOut() async {
     await _auth.signOut();
     googleSignIn.signOut();
+
     Scaffold
         .of(context)
         .showSnackBar(new SnackBar(content: new Text('User logged out')));
@@ -247,6 +249,9 @@ class _ExpoProfileState extends State<ExpoProfile> {
       email = null;
       phone = null;
       profileImgUrl = null;
+      Navigator.of(context).push(new CupertinoPageRoute(
+          builder: (BuildContext context) => new WelcomeScreen()
+      ));
     });
   }
 }

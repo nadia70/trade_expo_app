@@ -163,6 +163,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+
   @override
   void dispose() {
     super.dispose();
@@ -180,11 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text("Trade Expo"),
         centerTitle: true,
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.search,
-          color: Colors.white,)
-              , onPressed: (){
-                showSearch(context: context, delegate: DataSearch());
-              }),
+
           new Stack(
             alignment: Alignment.topLeft,
             children: <Widget>[

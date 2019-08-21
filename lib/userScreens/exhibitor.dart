@@ -1,3 +1,4 @@
+import 'package:expo_app/login/welcome_screen.dart';
 import 'package:expo_app/userScreens/myHomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,6 +131,11 @@ class _ExhibitorState extends State<Exhibitor> {
     try {
       await widget.auth.signOut();
       widget.onSignedOut();
+      Navigator.of(context).push(new CupertinoPageRoute(
+          builder: (BuildContext context) => new WelcomeScreen()
+      ));
+
+
     } catch (e) {
       print(e);
     }

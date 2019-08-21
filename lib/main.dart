@@ -11,6 +11,7 @@ import 'package:expo_app/login/sign_in_screen.dart';
 import 'package:expo_app/login/sign_up_screen.dart';
 
 void main(){
+
   FirebaseDatabase.instance.setPersistenceEnabled(true);
   FirebaseDatabase.instance.setPersistenceCacheSizeBytes(1000000000);
   FirebaseDatabase.instance.reference().keepSynced(true);
