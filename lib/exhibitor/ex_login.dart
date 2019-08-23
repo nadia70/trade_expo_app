@@ -1,3 +1,4 @@
+import 'package:expo_app/stands/standlist.dart';
 import 'package:expo_app/userScreens/exhibitor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .get()
                                 .then((DocumentSnapshot result) =>
                                 Navigator.of(context).push(new CupertinoPageRoute(
-                                    builder: (BuildContext context) => new  Exhibitor()
+                                    builder: (BuildContext context) => new ExpoStand()
                                 )))
                                 .catchError((err) => print(err)))
                                 .catchError((err) => print(err));

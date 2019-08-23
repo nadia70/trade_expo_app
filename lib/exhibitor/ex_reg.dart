@@ -1,3 +1,4 @@
+import 'package:expo_app/stands/standlist.dart';
 import 'package:expo_app/userScreens/exhibitor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Exhibitor()),
+                                        builder: (context) => ExpoStand()),
                                         (_) => false),
                                 firstNameInputController.clear(),
                                 lastNameInputController.clear(),

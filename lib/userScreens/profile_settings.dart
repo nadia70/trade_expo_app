@@ -80,19 +80,105 @@ class _ProfileState extends State<ExpoProfileSettings> {
         title: Text("Profile Settings"),
         centerTitle: true,
       ),
-      body: FirebaseAnimatedList(
-          query: FirebaseDatabase.instance.reference().child('userDB/' + userid),
-          itemBuilder: (_, DataSnapshot snapshot,
-              Animation<double> animation, int x) {
-            return new ListTile(
-              subtitle: new Text(snapshot.value.toString()),
-            );
-          }
-      ),
+      body: userDetail(),
     );
   }
 
   void _logOut() async {
     Auth.signOut();
+  }
+}
+class userDetail extends StatefulWidget {
+  @override
+  _userDetailState createState() => _userDetailState();
+}
+
+class _userDetailState extends State<userDetail> {
+
+  FirebaseAuth _auth;
+
+  String fullName;
+  String email;
+  String phone;
+  String userid;
+  String profileImgUrl;
+  bool isLoggedIn;
+  String _btnText;
+  bool _isSignedIn = false;
+
+  FirebaseUser currentUser;
+
+  Future<String> inputData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    final String uid = user.uid.toString();
+
+    return uid;
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+  }
+
+  Future getData() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = firestore.collection('users').where('name', isEqualTo: userid).limit(1)
+        .getDocuments() as QuerySnapshot;
+    return qn.documents;
+  }
+
+  CollectionReference collectionReference =
+  Firestore.instance.collection("users");
+
+
+  Future _getCurrentUser() async {
+    await _auth.currentUser().then((user) {
+      //_getCartCount();
+      if (user != null) {
+        setState(() {
+          _btnText = "Logout";
+          _isSignedIn = true;
+          email = user.email;
+          fullName = user.displayName;
+          profileImgUrl = user.photoUrl;
+          user = user;
+          //profileImgUrl = googleSignIn.currentUser.photoUrl;
+
+//          UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+//          userUpdateInfo.photoUrl = "";
+//          userUpdateInfo.displayName = "Esther Tony";
+//          _auth.updateProfile(userUpdateInfo);
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: StreamBuilder<QuerySnapshot>(
+          stream: collectionReference.where("email", isEqualTo:
+          email).snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: snapshot.data.documents.map((doc) {
+                  return ListTile(
+                    title: Text( "First Name:${doc.data['fname']}" ),
+                    subtitle: Text("Sur name: ${doc.data['surname']}. \n Email: ${doc.data['email']}"),
+                    isThreeLine: true,
+                  );
+                }).toList(),
+              );
+            } else {
+              return SizedBox();
+            }
+          }),
+
+    );
+
   }
 }

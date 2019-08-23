@@ -13,7 +13,7 @@ class OpenStand extends StatefulWidget {
 class _OpenStandState extends State<OpenStand> {
   Future getStands() async{
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("stand").getDocuments();
+    QuerySnapshot qn = await firestore.collection("receipt").getDocuments();
     return qn.documents;
 
   }
@@ -28,7 +28,7 @@ class _OpenStandState extends State<OpenStand> {
         child: new Icon(Icons.add),
       ),
       appBar: new AppBar(
-        title: new Text('Available Stands'),
+        title: new Text('Booked stands'),
 
       ),
       body: new Center(
@@ -48,81 +48,68 @@ class _OpenStandState extends State<OpenStand> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return new GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).push(new MaterialPageRoute(builder: (context)=> new BookStand(
 
-
-                                itemImage: snapshot.data[index].data["image"],
-                                itemName: snapshot.data[index].data["standno"],
-                                itemPrice: snapshot.data[index].data["price"],
-                                itemRating: snapshot.data[index].data["rating"],
-                                itemLocation: snapshot.data[index].data["location"],
-                                itemStatus: snapshot.data[index].data["status"],
-
-
-                              )));
-                            },
                             child: new Card(
                               child: Stack(
-                                alignment: FractionalOffset.topLeft,
+                                alignment: FractionalOffset.topRight,
                                 children: <Widget>[
                                   new Stack(
                                     alignment: FractionalOffset.bottomCenter,
                                     children: <Widget>[
-                                      new Container(
-                                        decoration: new BoxDecoration(
-                                            image: new DecorationImage(
-                                                fit: BoxFit.fitWidth ,
-                                                image: new NetworkImage(snapshot.data[index].data["image"]))
-                                        ),
-                                      ),
 
                                       new Container(
-                                        height:50.0 ,
+                                        height:100.0 ,
                                         color: Colors.transparent,
                                         child: new Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: new Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                                          child: Column(
                                             children: <Widget>[
-                                              new Text("${snapshot.data[index].data["standno"]}",
-                                                style: new TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 24.0,
-                                                    color: Colors.deepPurple),),
-                                              new Text("${snapshot.data[index].data["location"]}",
-                                                style: new TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 18.0,
-                                                    color: Colors.deepPurple),),
-                                              new Text("KSH.${snapshot.data[index].data["price"]}",
-                                                style: new TextStyle(
-                                                    color: Colors.red[500],
-                                                    fontWeight: FontWeight.w400),),
+                                              new SizedBox(
+                                                height: 10.0,
+                                              ),
+
+                                              new Row(
+                                                children: <Widget>[
+                                                  new Text("Stand number ${snapshot.data[index].data["stand number"]}",
+                                                    style: new TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 16.0,
+                                                        color: Colors.deepPurple),),
+
+                                                ],
+                                              ),
+                                              new SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              new Row(
+                                                children: <Widget>[
+                                                  new Text("Booked by: ${snapshot.data[index].data["email"]}",
+                                                    style: new TextStyle(
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 12.0,
+                                                        color: Colors.deepPurple),),
+
+                                                ],
+                                              ),
+
+                                              new SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              new Row(
+                                                children: <Widget>[
+                                                  new Text("Date: ${snapshot.data[index].data["date"]}",
+                                                    style: new TextStyle(
+                                                        color: Colors.red[500],
+                                                        fontWeight: FontWeight.w400),),
+                                                ],
+                                              ),
+
                                             ],
                                           ),
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          new Container(
-                                            height: 30.0,
-                                            width: 60.0,
-                                            child: new Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                              children: <Widget>[
-                                                new Text(
-                                                  "${snapshot.data[index].data["status"]}",
-                                                  style: new TextStyle(color: Colors.white),
-                                                )
-                                              ],
-                                            ),
-                                          ),
 
-                                        ],
-                                      )
                                     ],
                                   ),
 

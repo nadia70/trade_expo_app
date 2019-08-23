@@ -1,9 +1,11 @@
+import 'package:expo_app/stands/mpesa.dart';
 import 'package:expo_app/tools/authentication.dart';
 import 'package:expo_app/userScreens/exhibitor.dart';
 import 'package:expo_app/userScreens/root_page.dart';
 import 'package:flutter/material.dart';
 import 'exhibitor/ex_reg.dart';
 import 'models/applogin.dart';
+import 'mpesa_pay/mpesa_flutter_plugin.dart';
 import 'userScreens/myHomePage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:expo_app/login/welcome_screen.dart';
@@ -11,6 +13,8 @@ import 'package:expo_app/login/sign_in_screen.dart';
 import 'package:expo_app/login/sign_up_screen.dart';
 
 void main(){
+  MpesaFlutterPlugin.setConsumerKey('3rE6FKJM3LFAgE96BPlpDdifS2PG3ggQ');
+  MpesaFlutterPlugin.setConsumerSecret('ARvlk3H2hA3RXySm');
 
   FirebaseDatabase.instance.setPersistenceEnabled(true);
   FirebaseDatabase.instance.setPersistenceCacheSizeBytes(1000000000);
