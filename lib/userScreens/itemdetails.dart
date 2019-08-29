@@ -211,7 +211,7 @@ class _ItemDetailState extends State<ItemDetail> {
             },
             child: new Icon(Icons.shopping_cart),
           ),
-          
+
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

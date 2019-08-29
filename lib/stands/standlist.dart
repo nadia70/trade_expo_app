@@ -81,6 +81,22 @@ appBar: AppBar(
 
             new Divider(),
             new ListTile(
+              leading: new CircleAvatar(
+                child: new Icon(Icons.person,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Profile settings"),
+              onTap: (){
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) => new ExpoProfile()
+                ));
+              },
+            ),
+
+            new Divider(),
+            new ListTile(
               trailing: new CircleAvatar(
                 child: new Icon(Icons.border_color,
                   color: Colors.white,
