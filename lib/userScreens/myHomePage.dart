@@ -320,6 +320,7 @@ class _ItemsState extends State<Items> {
                         itemPrice: snapshot.data[index].data["productPrice"],
                         itemRating: snapshot.data[index].data["productRating"],
                         itemDescription: snapshot.data[index].data["productDesc"],
+                        index: index,
 
 
                       )));

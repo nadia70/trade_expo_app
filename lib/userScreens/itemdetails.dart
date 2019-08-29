@@ -1,4 +1,9 @@
+import 'dart:async';
+
+import 'package:expo_app/tools/app_data.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'cart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +19,9 @@ class ItemDetail extends StatefulWidget {
   String itemImage;
   String itemRating;
   String itemDescription;
+  final FbConn fbConn;
+  final String itemKey;
+  final index;
 
   ItemDetail({
 
@@ -22,7 +30,10 @@ class ItemDetail extends StatefulWidget {
     this.itemSubName,
     this.itemImage,
     this.itemRating,
-    this.itemDescription
+    this.itemDescription,
+    this.fbConn,
+    this.itemKey,
+    this.index
   });
 
 
@@ -32,10 +43,105 @@ class ItemDetail extends StatefulWidget {
 }
 
 class _ItemDetailState extends State<ItemDetail> {
+
+  int cartCount;
+  bool isInCart = false;
+  int defaultQuantity = 1;
+  FirebaseUser user;
+  FirebaseAuth _auth;
+  String fullName;
+  String email;
+  String phone;
+  String userid;
+
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  StreamSubscription<Event> _cartSubscription;
+  void showInSnackBar(String value) {
+    scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
+  @override
+  void initState() {
+    super.initState();
+    _getCartCount();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+
+  }
+  Future _getCurrentUser() async {
+    await _auth.currentUser().then((user) {
+      //_getCartCount();
+      if (user != null) {
+        setState(() {
+          email = user.email;
+          fullName = user.displayName;
+          //profileImgUrl = googleSignIn.currentUser.photoUrl;
+
+//          UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+//          userUpdateInfo.photoUrl = "";
+//          userUpdateInfo.displayName = "Esther Tony";
+//          _auth.updateProfile(userUpdateInfo);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _cartSubscription.cancel();
+    super.dispose();
+  }
+
+
+  Future _getCartCount() async {
+    if (AppData.currentUserID == "" || AppData.currentUserID == null) return;
+    final cartRef = FirebaseDatabase.instance
+        .reference()
+        .child(AppData.cartDB)
+        .child(AppData.currentUserID);
+
+    _cartSubscription = cartRef.onValue.listen((event) {
+      if (event.snapshot.value == null) {
+        isInCart = false;
+        cartCount = 0;
+        setState(() {});
+        return;
+      }
+      Map valFav = event.snapshot.value;
+      FbConn fbConn = new FbConn(valFav);
+      cartCount = fbConn.getDataSize();
+      for (int s = 0; s < fbConn.getDataSize(); s++) {
+        String key = fbConn.getKeyIDasList()[s];
+        if (key == widget.itemKey) {
+          isInCart = true;
+        }
+      }
+      setState(() {});
+    });
+  }
+
+  Future addToCart() async {
+    await _auth.currentUser()
+        .then((user)=> Firestore.instance
+        .collection("cart")
+        .document()
+        .setData({
+      "uid": user.uid,
+      "email": user.email,
+      "stand number": widget.itemName,
+      "amount": widget.itemPrice,
+      "image": widget.itemImage,
+    })
+        .catchError((err) => print(err)))
+        .catchError((err) => print(err));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      key: scaffoldKey,
       appBar: new AppBar(
         iconTheme: new IconThemeData(color: Colors.white),
         title: new Text("Item Detail"),
@@ -55,12 +161,42 @@ class _ItemDetailState extends State<ItemDetail> {
 
               new Container(
                 width: (screenSize.width - 20) / 2,
-                child: new Text(
-                  "ORDER NOW",
-                  textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w700),
-                ),
+                child: new GestureDetector(
+                  onTap: () {
+                    addToCart();
+                    showInSnackBar(
+                      /*widget.fbConn.getProductNameAsList()[widget.index] +*/
+                        " Added to your cart");
+                    isInCart = true;
+                    setState(() {});
+                  },
+                  child: new Container(
+                    width: 180.0,
+                    height: 50.0,
+                    //color: Colors.white,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: new Icon(
+                            Icons.add_shopping_cart,
+                            color: Colors.white,
+                            size: 25.0,
+                          ),
+                        ),
+                        new Text(
+                          "ADD TO CART",
+                          style: new TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
               ),
             ],
           ),
@@ -75,14 +211,7 @@ class _ItemDetailState extends State<ItemDetail> {
             },
             child: new Icon(Icons.shopping_cart),
           ),
-          new CircleAvatar(
-            radius: 10.0,
-            backgroundColor: Colors.red,
-            child: new Text(
-              "0",
-              style: new TextStyle(color: Colors.white, fontSize: 12.0),
-            ),
-          )
+          
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -229,7 +358,7 @@ class _ItemDetailState extends State<ItemDetail> {
                           height: 10.0,
                         ),
                         new Text(
-                            widget.itemDescription,
+                          widget.itemDescription,
                           style: new TextStyle(
                               fontSize: 14.0, fontWeight: FontWeight.w400),
                         ),
