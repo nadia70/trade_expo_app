@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .get()
                                 .then((DocumentSnapshot result) =>
                                 Navigator.of(context).push(new CupertinoPageRoute(
-                                    builder: (BuildContext context) => new ExpoStand()
+                                    builder: (BuildContext context) => new Exhibitor()
                                 )))
                                 .catchError((err) => print(err)))
                                 .catchError((err) => print(err));

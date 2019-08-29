@@ -1,9 +1,13 @@
 import 'package:expo_app/login/welcome_screen.dart';
 import 'package:expo_app/userScreens/myHomePage.dart';
+import 'package:expo_app/userScreens/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expo_app/tools/authentication.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'about.dart';
+import 'help.dart';
 import 'todo.dart';
 import 'dart:async';
 import 'package:expo_app/stands/standlist.dart';
@@ -32,15 +36,50 @@ class _ExhibitorState extends State<Exhibitor> {
 
   Query _todoQuery;
 
+  FirebaseUser user;
+  FirebaseAuth _auth;
+
   bool _isEmailVerified = false;
+  String fullName;
+  String email;
+  String phone;
+  String userid;
+  String profileImgUrl;
+  bool isLoggedIn;
+  String _btnText;
+  bool _isSignedIn = false;
 
   @override
   void initState() {
     super.initState();
 
     _checkEmailVerification();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
 
 
+  }
+
+  Future _getCurrentUser() async {
+    await _auth.currentUser().then((user) {
+      //_getCartCount();
+      if (user != null) {
+        setState(() {
+          _btnText = "Logout";
+          _isSignedIn = true;
+          email = user.email;
+          fullName = user.displayName;
+          profileImgUrl = user.photoUrl;
+          user = user;
+          //profileImgUrl = googleSignIn.currentUser.photoUrl;
+
+//          UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+//          userUpdateInfo.photoUrl = "";
+//          userUpdateInfo.displayName = "Esther Tony";
+//          _auth.updateProfile(userUpdateInfo);
+        });
+      }
+    });
   }
 
   void _checkEmailVerification() async {
@@ -243,6 +282,7 @@ class _ExhibitorState extends State<Exhibitor> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -267,6 +307,86 @@ class _ExhibitorState extends State<Exhibitor> {
                 },)
           ],
         ),
+      drawer: new Drawer(
+        child: new Column(
+          children: <Widget>[
+            new UserAccountsDrawerHeader(
+              accountEmail: Text(email != null ? email : email = "you@email.com"),
+              currentAccountPicture: new CircleAvatar(backgroundColor: Colors.white,
+                child: new Icon(Icons.person) ,)
+              ,),
+
+            new Divider(),
+            new ListTile(
+              leading: new CircleAvatar(
+                child: new Icon(Icons.person,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Profile settings"),
+              onTap: (){
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) => new ExpoProfile()
+                ));
+              },
+            ),
+
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.border_color,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("About us"),
+              onTap: (){
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) => new ExpoAbout()
+                ));
+              },
+            ),
+
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.help,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("Help"),
+              onTap: (){
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) => new HelpPage()
+                ));
+              },
+            ),
+            new Divider(),
+            new ListTile(
+              trailing: new CircleAvatar(
+                child: new Icon(Icons.lock,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+              ),
+              title: new Text("logout"),
+              onTap: (){
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) => new WelcomeScreen()
+                ));
+              },
+            ),
+
+
+
+
+
+
+          ],
+        ),
+      ),
         body: new MyHomePage(),
 
     );

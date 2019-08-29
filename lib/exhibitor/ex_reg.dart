@@ -129,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ExpoStand()),
+                                        builder: (context) => Exhibitor()),
                                         (_) => false),
                                 firstNameInputController.clear(),
                                 lastNameInputController.clear(),
