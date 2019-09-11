@@ -130,6 +130,40 @@ class _AppUsersState extends State<AppUsers> {
             ),
           ),
 
+          Padding(
+            padding:
+            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 40.0),
+            child: new InkWell(
+              onTap: () {
+                Navigator.of(context).push(new CupertinoPageRoute(
+                    builder: (BuildContext context) => new  Approvals()
+                ));
+              },
+              child: new Container(
+                height: 60.0,
+                margin: new EdgeInsets.only(top: 5.0),
+                child: new Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: new Container(
+                    margin: new EdgeInsets.only(
+                        left: 10.0, right: 10.0, bottom: 2.0),
+                    height: 60.0,
+                    decoration: new BoxDecoration(
+                        color: Colors.deepPurple,
+                        borderRadius: new BorderRadius.all(
+                            new Radius.circular(20.0))),
+                    child: new Center(
+                        child: new Text(
+                          "Awaiting approval",
+                          style: new TextStyle(
+                              color: Colors.white, fontSize: 20.0),
+                        )),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
 
         ],
       ),
@@ -281,6 +315,82 @@ class _ExState extends State<Ex> {
                           },
                         );
 
+                      }
+                    }),)
+            ],
+          ),
+        )
+    );
+  }
+}
+
+class Approvals extends StatefulWidget {
+  @override
+  _ApprovalsState createState() => _ApprovalsState();
+}
+
+class _ApprovalsState extends State<Approvals> {
+  Future getApprovals() async{
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore.collection("users").getDocuments();
+    return qn.documents;
+
+  }
+
+  CollectionReference collectionReference =
+  Firestore.instance.collection("users");
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text("Users"),centerTitle: true,),
+        body: Container(
+          child: new Column(
+            children: <Widget>[
+
+              new Flexible(
+                child: StreamBuilder<QuerySnapshot>(
+                    stream: collectionReference.where("approval", isEqualTo:
+                    false).snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: snapshot.data.documents.map((doc) {
+                            return ListTile(
+                              title: Text(doc.data['email']),
+                              trailing: IconButton(
+                                icon: Icon(Icons.check_circle),
+                                onPressed: () async {
+                                  await collectionReference
+                                      .document(doc.documentID)
+                                      .updateData({
+                                      "approval": true,
+                                      });
+
+
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Approved"),
+                                          content: Text("Registration approved"),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text("Close"),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      });
+                                },
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      } else {
+                        return SizedBox();
                       }
                     }),)
             ],

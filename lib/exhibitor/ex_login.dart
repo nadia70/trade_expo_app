@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,15 +85,15 @@ class _LoginPageState extends State<LoginPage> {
                                 password: pwdInputController.text)
                                 .then((currentUser) => Firestore.instance
                                 .collection("exibitor")
-                                .document(currentUser.uid)
-                                .get()
-                                .then((DocumentSnapshot result) =>
-                                Navigator.of(context).push(new CupertinoPageRoute(
-                                    builder: (BuildContext context) => new Exhibitor()
-                                )))
+                                .where('uid', isEqualTo: currentUser.uid)
+                                .where('approval', isEqualTo: true)
+                                .getDocuments()
+                                .then((querySnap) =>  Navigator.of(context).push(new CupertinoPageRoute(
+                                builder: (BuildContext context) => new  Exhibitor()
+                            )))
                                 .catchError((err) => print(err)))
                                 .catchError((err) => print(err));
-                          }
+                                }
                         },
                       ),
                       Text("Don't have an account yet?"),

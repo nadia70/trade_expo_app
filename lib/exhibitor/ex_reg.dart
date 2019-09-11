@@ -124,12 +124,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                 "fname": firstNameInputController.text,
                                 "surname": lastNameInputController.text,
                                 "email": emailInputController.text,
+                                "approval": false,
                               })
                                   .then((result) => {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Exhibitor()),
+                                        builder: (context) => LoginPage()),
                                         (_) => false),
                                 firstNameInputController.clear(),
                                 lastNameInputController.clear(),

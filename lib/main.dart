@@ -13,8 +13,8 @@ import 'package:expo_app/login/sign_in_screen.dart';
 import 'package:expo_app/login/sign_up_screen.dart';
 
 void main(){
-  MpesaFlutterPlugin.setConsumerKey('3rE6FKJM3LFAgE96BPlpDdifS2PG3ggQ');
-  MpesaFlutterPlugin.setConsumerSecret('ARvlk3H2hA3RXySm');
+  MpesaFlutterPlugin.setConsumerKey('hwjt1AQ4c7lRDexArlWwgtjfQYlraMMO');
+  MpesaFlutterPlugin.setConsumerSecret('fauvPwIHPhGmUl3E');
 
   FirebaseDatabase.instance.setPersistenceEnabled(true);
   FirebaseDatabase.instance.setPersistenceCacheSizeBytes(1000000000);

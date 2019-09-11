@@ -123,6 +123,7 @@ class _UserRegState extends State<UserReg> {
                                 "fname": firstNameInputController.text,
                                 "surname": lastNameInputController.text,
                                 "email": emailInputController.text,
+                                "approval": false,
                               })
                                   .then((result) => {
                                 Navigator.pushAndRemoveUntil(
